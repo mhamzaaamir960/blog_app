@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog Platform Development Plan
 
-## Getting Started
+## Goal
 
-First, run the development server:
+Create a full-stack blog platform in **14 days**. Users can create profiles, share blogs (image, title, and description), interact with others (like, comment, share), and read blogs seamlessly.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js** - Frontend & Backend
+- **MongoDB** - Database
+- **Prisma** - ORM
+- **Zod** - Validation
+- **Cloudinary** - Image Storage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Functionalities
 
-To learn more about Next.js, take a look at the following resources:
+### Authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Login/SignUp**
+  - Secure authentication using `JWT`.
+  - Password hashing using `bcrypt`.
+  - Email and password-based sign-up/login.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### User Profile
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Profile Details**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  - Users can create and update their profile with:
+    - Profile Picture
+    - Name
+    - Bio
+    - Social Links
+  - Ability to view other users' profiles.
+
+- **Followers/Following System**
+  - Follow and unfollow users.
+  - Display followers and following counts on user profiles.
+
+---
+
+### Home Page
+
+- **Blog Feed**
+  - A centralized home page displaying all blogs in reverse chronological order.
+  - Includes features for filtering or searching blogs by category or keywords.
+
+---
+
+### Blog Management
+
+- **Upload Content**
+
+  - Users can create and upload blogs with:
+    - **Title**
+    - **Description**
+    - **Image** (uploaded to Cloudinary).
+  - Input validation using Zod for secure and correct data.
+
+- **Edit/Delete Blogs**
+  - Authenticated users can edit or delete their own blogs.
+
+---
+
+### Interactions
+
+- **Like, Comment, and Share**
+  - Users can:
+    - Like blogs.
+    - Comment on blogs.
+    - Share blogs via social links.
+
+---
+
+### Deployment
+
+- Depoly on vercel
+
+---
