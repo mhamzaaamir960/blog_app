@@ -27,35 +27,40 @@ model User {
 }
 
 model Profile {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId()
-  bio      String?
-  role     String?
-  user     User    @relation(fields: [username], references: [username])
-  username String  @unique
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId()
+  profilePicture String?
+  bio            String?
+  role           String?
+  user           User    @relation(fields: [username], references: [username])
+  username       String  @unique
 }
 
 model Follow {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId()
   followedAt DateTime @default(now())
 
-  follower  User @relation("follower", fields: [followerId], references: [username])
-  following User @relation("following", fields: [followingId], references: [username])
+  follower  User @relation("follower", fields: [followerId], references: [id])
+  following User @relation("following", fields: [followingId], references: [id])
 
-  followerId  String
-  followingId String
+  followerId  String @db.ObjectId()
+  followingId String @db.ObjectId()
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([followerId, followingId])
 }
 
 model Post {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId()
+  id          String @id @default(auto()) @map("_id") @db.ObjectId()
   title       String
   description String
   category    String
-  author      User       @relation(fields: [authorId], references: [username])
+  author      User   @relation(fields: [authorId], references: [username])
   authorId    String
-  comments    Comments[]
-  likes       Like[]
+
+  comments Comments[]
+  likes    Like[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,22 +68,28 @@ model Post {
 
 model Comments {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId()
-  comment String
+  content String
   Post    Post?   @relation(fields: [postId], references: [id])
   postId  String? @db.ObjectId()
   User    User?   @relation(fields: [userId], references: [id])
   userId  String? @db.ObjectId()
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([postId, userId])
 }
 
 model Like {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId()
-  isLiked Boolean
+  isLiked Boolean @default(false)
   Post    Post?   @relation(fields: [postId], references: [id])
   postId  String? @db.ObjectId()
-  User    User    @relation(fields: [userId], references: [id])
-  userId  String  @unique @db.ObjectId()
+  User    User?   @relation(fields: [userId], references: [id])
+  userId  String? @unique @db.ObjectId()
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([postId, userId])
 }

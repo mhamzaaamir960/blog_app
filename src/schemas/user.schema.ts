@@ -1,9 +1,10 @@
 import { z } from "zod";
 
-export const profileSchema = z.object({
-  bio: z.string().max(200, "Bio must be at most 200 characters!").optional(),
-  role: z.string().max(30, "Role must be at most 30 characters!").optional(),
-  username: z.string().min(5, "Username must be at least 5 characters!"),
+const profileSchema = z.object({
+  profilePicture: z.string().optional(),
+  bio: z.string().optional(),
+  role: z.string().optional(),
+  username: z.string(),
 });
 
 export const userSchema = z.object({
@@ -14,3 +15,5 @@ export const userSchema = z.object({
   confirmPassword: z.string().min(8, "Password must be at least 8 characters!"),
   profile: profileSchema.optional(),
 });
+
+export type User = z.infer<typeof userSchema>;
