@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { User, userSchema } from "@/schemas/user.schema";
+import { userSchema } from "@/schemas/user.schema";
 import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
 import { uploadOnCloudinary } from "@/helpers/cloudinary";
@@ -18,8 +18,7 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
     const validatedData = userSchema.parse(data);
 
-    const { username, fullName, email, password, profile } =
-      validatedData;
+    const { username, fullName, email, password, profile } = validatedData;
 
     const user = await db.user.findFirst({
       where: {
