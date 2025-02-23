@@ -16,9 +16,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const data = await request.json();
+    console.log("abc")
     const validatedData = userSchema.parse(data);
 
-    const { username, fullName, email, password, profile } = validatedData;
+    const { firstName, lastName, username, email, password, profilePicture } =
+      validatedData;
+    const fullName = `${firstName} ${lastName}`;
 
     const user = await db.user.findFirst({
       where: {
@@ -33,10 +36,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const profilePicture = profile?.profilePicture;
-    let profilePictureUrl: string | null = null;
-    if (profilePicture) {
-      profilePictureUrl = await uploadOnCloudinary(profilePicture);
+    let profilePictureUrl!: string | null;
+    if (typeof profilePicture !== "undefined") {
+      profilePictureUrl = await uploadOnCloudinary(
+        profilePicture.webkitRelativePath
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -48,9 +52,7 @@ export async function POST(request: NextRequest) {
         email,
         password: hashedPassword,
         confirmPassword: hashedPassword,
-        // profile: {
-        //   profilePicture,
-        // },
+        profilePicture: profilePictureUrl,
       },
     });
 

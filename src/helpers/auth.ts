@@ -26,6 +26,7 @@ export const getDataThroughToken = async (request: NextRequest) => {
         id: verifiedToken.id,
       },
       select: {
+        profilePicture:true,
         username: true,
         fullName: true,
         email: true,
