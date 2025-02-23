@@ -1,15 +1,17 @@
 import { z } from "zod";
 
-const profileSchema = z.object({
-  bio: z.string().optional(),
+export const profileSchema = z.object({
+  id: z.string().optional(),
+  bio: z.string().max(500, "Bio not be more than 500 characters").optional(),
   role: z.string().optional(),
-  username: z.string(),
+  userId: z.string().min(24, "Invalid userId format").optional(),
 });
 
 export const userSchema = z
   .object({
+    id: z.string().optional(),
     profilePicture: z.instanceof(File).optional(),
-    firstName: z.string(),
+    firstName: z.string().trim(),
     lastName: z.string().optional(),
     username: z
       .string()

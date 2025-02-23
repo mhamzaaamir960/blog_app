@@ -16,12 +16,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const data = await request.json();
-    console.log("abc")
+    // console.log("abc")
     const validatedData = userSchema.parse(data);
 
     const { firstName, lastName, username, email, password, profilePicture } =
       validatedData;
-    const fullName = `${firstName} ${lastName}`;
+    const fullName = `${firstName} ${lastName ? lastName : ""}`;
 
     const user = await db.user.findFirst({
       where: {
@@ -51,7 +51,6 @@ export async function POST(request: NextRequest) {
         fullName,
         email,
         password: hashedPassword,
-        confirmPassword: hashedPassword,
         profilePicture: profilePictureUrl,
       },
     });
