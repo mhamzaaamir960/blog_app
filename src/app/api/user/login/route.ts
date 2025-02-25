@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log(user.id);
+    // console.log(user.id);
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 405 });

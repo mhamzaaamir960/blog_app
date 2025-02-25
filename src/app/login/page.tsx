@@ -22,7 +22,7 @@ function page() {
 
   const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log(data);
+    // console.log(data);
 
     try {
       const response = await fetch("./api/user/login", {
@@ -33,7 +33,7 @@ function page() {
         body: JSON.stringify(data),
       });
 
-      console.log(await response.json());
+      // console.log(await response.json());
 
       if (!response.ok) {
         throw new Error(`Failed to logged In! Status: ${response.status}`);

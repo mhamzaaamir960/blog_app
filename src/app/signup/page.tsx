@@ -66,7 +66,7 @@ function page() {
       if (!response.ok) {
         throw new Error(`Failed to post data! Status: ${response.status}`);
       }
-      console.log(await response.json());
+      // console.log(await response.json());
 
       setData({
         firstName: "",

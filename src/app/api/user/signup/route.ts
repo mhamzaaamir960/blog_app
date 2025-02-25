@@ -52,6 +52,15 @@ export async function POST(request: NextRequest) {
         email,
         password: hashedPassword,
         profilePicture: profilePictureUrl,
+        profile: {
+          create: {
+            bio: null,
+            role: null,
+          },
+        },
+      },
+      include: {
+        profile: true,
       },
     });
 

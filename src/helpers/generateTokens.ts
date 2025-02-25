@@ -43,7 +43,7 @@ export const generateAccessAndRefreshToken = async (userDetails: any) => {
     const accessToken = generateAccessToken(userDetails);
     const refreshToken = generateRefreshToken(userDetails);
 
-    console.log(userDetails.id)
+    // console.log(userDetails.id)
 
     await db.user.update({
       where: { id: user.id },

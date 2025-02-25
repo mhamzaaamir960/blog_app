@@ -4,7 +4,7 @@ export const profileSchema = z.object({
   id: z.string().optional(),
   bio: z.string().max(500, "Bio not be more than 500 characters").optional(),
   role: z.string().optional(),
-  userId: z.string().min(24, "Invalid userId format").optional(),
+  userId: z.string().min(24, "Invalid userId format"),
 });
 
 export const userSchema = z

@@ -7,17 +7,18 @@ import { ZodError } from "zod";
 
 export async function GET(request: NextRequest) {
   try {
-    const { user, error, status } = await getDataThroughToken(
-      request
-    );
+    const { user, error, status }: any = await getDataThroughToken(request);
     if (error) {
       return NextResponse.json({ error }, { status });
     }
-    const profile = await db.profile.findFirst({
-      where: { userId: user?.id },
+    const profile: any = await db.profile.findFirst({
+      where: { userId: user.id },
       include: { user: true },
     });
-    console.log(user?.id);
+    // console.log(`User Id: ${user.id}`);
+    // console.log(profile);
+    const userId = request.headers.get("userId");
+    console.log(userId);
     return NextResponse.json(profile, { status });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -26,23 +27,27 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { user, error, status } = await getDataThroughToken(request);
+    const { user, error, status }: any = await getDataThroughToken(request);
     const data = await request.json();
     const validateData = profileSchema.parse(data);
-    console.log("abc");
+    // console.log("abc");
     const { bio, role } = validateData;
 
     if (error) {
       return NextResponse.json({ error }, { status });
     }
 
+    // console.log(user.id)
+
     const profile = await db.profile.create({
       data: {
         bio: bio,
         role: role,
-        userId: user!.id,
+        userId: user.id,
       },
     });
+
+    profileSchema.parse(profile);
 
     if (!profile) {
       return NextResponse.json(
@@ -50,6 +55,8 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // console.log(profile)
 
     return NextResponse.json(profile, { status: 201 });
   } catch (error) {
