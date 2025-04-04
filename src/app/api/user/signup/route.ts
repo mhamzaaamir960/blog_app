@@ -16,19 +16,19 @@ export async function POST(request: NextRequest) {
 
   try {
     const data = await request.json();
-    // console.log("abc")
     const validatedData = userSchema.parse(data);
-
+    
     const { firstName, lastName, username, email, password, profilePicture } =
-      validatedData;
+    validatedData;
     const fullName = `${firstName} ${lastName ? lastName : ""}`;
-
+    // console.log("abc")
+    
     const user = await db.user.findFirst({
       where: {
         OR: [{ username }, { email }],
       },
     });
-
+    
     if (user) {
       return NextResponse.json(
         { error: "User already exists!" },
