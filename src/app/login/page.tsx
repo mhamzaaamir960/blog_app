@@ -63,7 +63,7 @@ function page() {
             id="identifier"
             name="identifier"
             type="text"
-            value={data.identifier}
+            value={data.identifier.trim()}
             onChange={handleChange}
             placeholder="Email or username*"
             className="outline-none w-full h-[50px] text-[#555555] text-[18px] bg-[#FDFEFF] border border-blue-500 rounded-[8px] drop-shadow-xl px-3 "
@@ -72,7 +72,7 @@ function page() {
             id="password"
             name="password"
             type="password"
-            value={data.password}
+            value={data.password.trim()}
             onChange={handleChange}
             placeholder="Password*"
             className="outline-none w-full h-[50px] text-[#555555] text-[18px] bg-[#FDFEFF] border border-blue-500 rounded-[8px] drop-shadow-xl px-3 "
@@ -81,7 +81,9 @@ function page() {
         <button
           type="submit"
           onClick={handleSubmit}
-          className={`${loading && "bg-opacity-60"} font-medium text-white text-[18px] bg-blue-500 hover:bg-opacity-90 rounded-lg px-5 py-2`}
+          className={`${
+            loading && "bg-opacity-60"
+          } font-medium text-white text-[18px] bg-blue-500 hover:bg-opacity-90 rounded-lg px-5 py-2`}
         >
           {loading ? "Loading..." : "Login"}
         </button>

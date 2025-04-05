@@ -6,38 +6,31 @@ import jwt from "jsonwebtoken";
 export function middleware(request: NextRequest) {
   const token: string = request.cookies.get("accessToken")?.value || "";
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  try {
-    let verifyToken: string | JwtPayload;
+  let decodedToken: string | JwtPayload;
 
-    try {
-      verifyToken = jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET!
-      ) as JwtPayload;
-    } catch (error) {
-      return NextResponse.json(
-        { error: "Unauthorized request" },
-        { status: 401 }
-      );
+  try {
+    decodedToken = jwt.verify(
+      token,    
+      process.env.ACCESS_TOKEN_SECRET!
+    ) as JwtPayload;
+
+    if (!decodedToken) {
+      return NextResponse.redirect(new URL("/login", request.url));
     }
 
+    const response = NextResponse.next();
+    response.headers.set("x-user", decodedToken.userId);
+    // console.log(decodedToken);
 
-    
-    return NextResponse.json(
-      { message: "Authorized request" },
-      { status: 200 }
-    );
+    return response;
   } catch (error) {
-    return NextResponse.json(
-      { error: "Un-authorized requesttt" },
-      { status: 500 }
-    );
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 }
 
 export const config = {
-  matcher: ["/abc"],
+  matcher: ["/profile/:path", "/new-blog/:path"],
 };

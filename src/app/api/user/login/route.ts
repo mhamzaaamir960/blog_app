@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
     const user: any = await db.user.findFirst({
       where: {
-        OR: [{ username: identifier }, { email: identifier }],
+        OR: [{ username: identifier.trim() }, { email: identifier.trim() }],
       },
     });
 

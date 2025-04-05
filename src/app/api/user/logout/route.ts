@@ -1,22 +1,25 @@
-import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    (await cookies()).set("accessToken", "", {
-      expires: new Date(0),
-      path: "/",
-    });
-
-    (await cookies()).set("refreshToken", "", {
-      expires: new Date(0),
-      path: "/",
-    });
-
-    return NextResponse.json(
+    const response = NextResponse.json(
       { message: "Logout successfull!" },
       { status: 200 }
     );
+    response.cookies.set("accessToken", "", {
+      expires: new Date(0),
+      secure: true,
+      httpOnly: true,
+      path: "/",
+    });
+
+    response.cookies.set("refreshToken", "", {
+      expires: new Date(0),
+      secure: true,
+      httpOnly: true,
+      path: "/",
+    });
+    return response;
   } catch (error: unknown) {
     return NextResponse.json({ error: error }, { status: 500 });
   }

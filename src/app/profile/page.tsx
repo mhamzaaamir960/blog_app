@@ -23,6 +23,7 @@ function page() {
       }
     })();
   }, []);
+  
   return (
     <div className="w-full min-h-screen bg-gray-50 flex justify-center">
       <div className="max-w-[1200px] w-full h-full flex flex-col items-center gap-y-20">

@@ -12,7 +12,7 @@ export const generateAccessToken = (userDetails: any) => {
       },
       process.env.ACCESS_TOKEN_SECRET!,
       {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY!,
       }
     );
     console.log(`Generated Access Token: ${token}`);
@@ -25,7 +25,7 @@ export const generateAccessToken = (userDetails: any) => {
 const generateRefreshToken = (userDetails: any) => {
   try {
     return jwt.sign({ id: userDetails.id }, process.env.REFRESH_TOKEN_SECRET!, {
-      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY!,
     });
   } catch (error) {
     console.log(`Refresh Token Error: ${error}`);
