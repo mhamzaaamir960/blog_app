@@ -5,11 +5,11 @@ import React, { useState } from "react";
 function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <nav className="fixed w-full h-[80px] bg-gray-200 flex justify-center items-center">
-      <div className="max-w-[1920px] w-full h-full flex justify-around items-center px-5">
+    <nav className="fixed w-full h-[80px] bg-gray-200 flex justify-center items-center z-20">
+      <div className="max-w-[1200px] w-full h-full flex justify-between items-center px-5">
         <Link href={"/"} className="font-black text-black text-[30px]">Logo</Link>
         <div className="flex justify-center items-center gap-5">
-          <div className="bg-blue-500 hover:bg-opacity-90 cursor-pointer flex justify-center items-center gap-2 px-2 py-1 rounded-md">
+          <Link href={"/new-blog"} className="bg-blue-500 hover:bg-opacity-90 cursor-pointer flex justify-center items-center gap-2 px-2 py-1 rounded-md">
             <svg
               width="20"
               height="20"
@@ -27,7 +27,7 @@ function Navbar() {
               />
             </svg>
             <button className="text-white text-[14px]">Write a blog...</button>
-          </div>
+          </Link >
 
           <div
             onClick={() => setShowMenu(!showMenu)}

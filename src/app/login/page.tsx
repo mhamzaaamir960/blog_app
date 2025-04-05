@@ -10,6 +10,7 @@ interface Data {
 
 function page() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Data>({
     identifier: "",
     password: "",
@@ -23,7 +24,12 @@ function page() {
   const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     // console.log(data);
-
+    setLoading(true);
+    if (!data.identifier || !data.password) {
+      alert("Please fill all the fields");
+      setLoading(false);
+      return;
+    }
     try {
       const response = await fetch("./api/user/login", {
         method: "POST",
@@ -40,7 +46,8 @@ function page() {
       }
 
       setData({ identifier: "", password: "" });
-      router.push("/")
+      setLoading(false);
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -74,9 +81,9 @@ function page() {
         <button
           type="submit"
           onClick={handleSubmit}
-          className="font-medium text-white text-[18px] bg-blue-500 hover:bg-opacity-90 rounded-lg px-5 py-2"
+          className={`${loading && "bg-opacity-60"} font-medium text-white text-[18px] bg-blue-500 hover:bg-opacity-90 rounded-lg px-5 py-2`}
         >
-          Login
+          {loading ? "Loading..." : "Login"}
         </button>
         <p className="font-light text-black text-[16px]">
           Don't have an account!{" "}

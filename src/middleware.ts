@@ -23,6 +23,8 @@ export function middleware(request: NextRequest) {
         { status: 401 }
       );
     }
+
+
     
     return NextResponse.json(
       { message: "Authorized request" },
@@ -30,12 +32,12 @@ export function middleware(request: NextRequest) {
     );
   } catch (error) {
     return NextResponse.json(
-      { error: "Un-authorized request" },
+      { error: "Un-authorized requesttt" },
       { status: 500 }
     );
   }
 }
 
 export const config = {
-  matcher: ["/profile"],
+  matcher: ["/abc"],
 };
