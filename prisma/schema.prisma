@@ -57,10 +57,10 @@ model Post {
   description String
   category    String
   author      User   @relation(fields: [authorId], references: [id])
-  authorId    String @unique @map("author_id") @db.ObjectId()
+  authorId    String @map("author_id") @db.ObjectId()
 
   comments Comments[]
-  likes    Like[]
+  likes    Like?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -83,8 +83,8 @@ model Comments {
 model Like {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId()
   isLiked Boolean @default(false)
-  Post    Post?   @relation(fields: [postId], references: [id])
-  postId  String? @unique @map("post_id") @db.ObjectId()
+  Post    Post    @relation(fields: [postId], references: [id])
+  postId  String  @unique @map("post_id") @db.ObjectId()
   User    User?   @relation(fields: [userId], references: [id])
   userId  String? @unique @map("user_id") @db.ObjectId()
 

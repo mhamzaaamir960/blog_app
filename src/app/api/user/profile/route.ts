@@ -13,12 +13,9 @@ export async function GET(request: NextRequest) {
     }
     const profile: any = await db.profile.findFirst({
       where: { userId: user.id },
-      include: { user: true },
+      include: { user: { include: { posts: true } } },
     });
-    // console.log(`User Id: ${user.id}`);
-    // console.log(profile);
-    const userId = request.headers.get("userId");
-    console.log(userId);
+
     return NextResponse.json(profile, { status });
   } catch (error) {
     return NextResponse.json({ error }, { status: 500 });

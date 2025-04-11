@@ -26,15 +26,13 @@ function page() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          
         },
         body: JSON.stringify(data),
       });
-      console.log(response);
 
-      // if (!response.ok) {
-      //   throw new Error("Faild to create post!");
-      // }
+      if (!response.ok) {
+        throw new Error("Faild to create post!");
+      }
       const result = await response.json();
       console.log(result)
     } catch (error) {

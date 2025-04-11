@@ -10,6 +10,7 @@ import { PopUp } from "@/components";
 
 function page() {
   const [data, setData]: any = useState();
+  const [posts, setPosts]: any = useState([]);
   const [showPopUp, setShowPopUp] = useState(false);
 
   useEffect(() => {
@@ -23,7 +24,19 @@ function page() {
       }
     })();
   }, []);
-  
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getData("./api/posts/user");
+        console.log(data.userPosts);
+        setPosts(data.userPosts);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   return (
     <div className="w-full min-h-screen bg-gray-50 flex justify-center">
       <div className="max-w-[1200px] w-full h-full flex flex-col items-center gap-y-20">
@@ -78,7 +91,7 @@ function page() {
             Edit Profile
           </button>
 
-          {showPopUp && <PopUp setShowPopUp={setShowPopUp}/>}
+          {showPopUp && <PopUp setShowPopUp={setShowPopUp} />}
           {/* bio */}
           <p className="max-w-[500px] w-full  leading-tight text-center text-[#555] text-[16px]">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem ut
@@ -96,48 +109,51 @@ function page() {
         {/* <div>No blog posts yet</div> */}
 
         <div className="w-full mb-20 flex flex-col items-center gap-y-5">
-          <div className="max-w-[900px] w-full h-[280px] flex flex-col justify-between bg-white border border-gray-400 rounded-lg drop-shadow-lg p-4 ">
-            <div className="flex items-center justify-between">
-              <div className="max-w-[65%] w-full flex flex-col justify-start gap-y-2">
-                <h3 className="font-semibold leading-tight text-black text-[28px]">
-                  Teaching AI to tell visually consistent  stories
-                </h3>
-                <p className="font-medium leading-tight text-[#555] text-[18px]">
-                  We understand stories differently than we understand momentsWe
-                  understand stories differently than we understand moments. A
-                  moment can be striking or beautiful on its own — a sunset, a
-                  dancer’s leap, a smile. a dancer’s leap, a smile....
-                </p>
+          {posts.length > 0 &&
+            posts.map((post: any, index: number) => (
+              <div
+                key={index}
+                className="max-w-[900px] w-full h-[280px] flex flex-col justify-between bg-white border border-gray-400 rounded-lg drop-shadow-lg p-4 "
+              >
+                <div className="flex items-center justify-between">
+                  <div className="max-w-[65%] w-full flex flex-col justify-start gap-y-2">
+                    <h3 className="font-semibold leading-tight text-black text-[28px]">
+                      {post.title}
+                    </h3>
+                    <p className="font-medium leading-tight text-[#555] text-[18px]">
+                      {post.description}
+                    </p>
+                  </div>
+
+                  <div>
+                    <Image
+                      src={img1}
+                      alt="blog image"
+                      width={250}
+                      height={200}
+                      className="w-[220px] h-[220px]"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-x-3 px-2">
+                  <p className="text-[#555] text-[14px]">2d ago.</p>
+                  <span className="flex items-center justify-center gap-x-1">
+                    <AiFillLike className="text-[#555] text-[20px]" />
+                    <p className="text-[#555] text-[14px]">299</p>
+                  </span>
+
+                  <span className="flex items-center justify-center gap-x-1">
+                    <FaComment className="text-[#555] text-[18px]" />
+                    <p className="text-[#555] text-[14px]">299</p>
+                  </span>
+
+                  <span className="flex items-center justify-center gap-x-1">
+                    <PiShareFatFill className="text-[#555] text-[20px]" />
+                    <p className="text-[#555] text-[14px]">299</p>
+                  </span>
+                </div>
               </div>
-
-              <div>
-                <Image
-                  src={img1}
-                  alt="blog image"
-                  width={250}
-                  height={200}
-                  className="w-[220px] h-[220px]"
-                />
-              </div>
-            </div>
-            <div className="flex gap-x-3 px-2">
-              <p className="text-[#555] text-[14px]">2d ago.</p>
-              <span className="flex items-center justify-center gap-x-1">
-                <AiFillLike className="text-[#555] text-[20px]" />
-                <p className="text-[#555] text-[14px]">299</p>
-              </span>
-
-              <span className="flex items-center justify-center gap-x-1">
-                <FaComment className="text-[#555] text-[18px]" />
-                <p className="text-[#555] text-[14px]">299</p>
-              </span>
-
-              <span className="flex items-center justify-center gap-x-1">
-                <PiShareFatFill className="text-[#555] text-[20px]" />
-                <p className="text-[#555] text-[14px]">299</p>
-              </span>
-            </div>
-          </div>
+            ))}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import { postSchema } from "@/schemas/post.schema";
 import { db } from "@/lib/db";
 import { ZodError } from "zod";
+import { getDataThroughToken } from "@/helpers/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,25 +11,22 @@ export async function POST(request: NextRequest) {
     const validatedData = postSchema.parse(data);
 
     const { title, category, description } = validatedData;
-    const user = request.headers.get("x-user");
-    console.log(request.headers)
-    console.log(user)
+    const { user, error, status } = await getDataThroughToken(request);
     if (!user) {
-      return NextResponse.json(
-        { error: "Unauthorized user!" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: error }, { status: status });
     }
 
-
+    console.log(title, category);
     const newPost = await db.post.create({
       data: {
-        title,
-        category,
-        description,
-        authorId: user,
+        title: title,
+        category: category,
+        description: description,
+        authorId: user.id,
       },
     });
+
+    console.log(newPost);
 
     postSchema.parse(newPost);
     if (!newPost) {
@@ -63,5 +61,22 @@ export async function POST(request: NextRequest) {
         status: 500,
       }
     );
+  }
+}
+
+export async function GET() {
+  try {
+    const posts = await db.user.findMany({
+      include: {
+        posts: true
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Posts fetched successfully!", data :posts },
+      { status: 200 }
+    );
+  } catch (error: unknown) {
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
